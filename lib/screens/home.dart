@@ -10,22 +10,23 @@ class HomeScreen extends StatelessWidget {
       {
         'title': 'Bairan',
         'artist': 'Banjare',
-        'coverUrl': './assets/images/bairan.jfif',
+        // Flutter asset keys use the declared path without a leading './'.
+        'coverUrl': 'assets/images/bairan.jfif',
       },
       {
         'title': 'Afsos',
         'artist': 'Anuv Jain',
-        'coverUrl': './assets/images/Afsos.jfif',
+        'coverUrl': 'assets/images/Afsos.jfif',
       },
       {
         'title': 'Sukoon',
         'artist': 'Adtiya Rikhari',
-        'coverUrl': './assets/images/Sukoon.jfif',
+        'coverUrl': 'assets/images/Sukoon.jfif',
       },
       {
         'title': 'Tumhe Dillagi',
         'artist': 'Nusrat Fateh Ali Khan',
-        'coverUrl': './assets/images/NFAK.jfif',
+        'coverUrl': 'assets/images/NFAK.jfif',
       },
     ];
 
@@ -38,8 +39,8 @@ class HomeScreen extends StatelessWidget {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              Color(0xFF6B1115), // Upar wala deep maroon/red
-              Color(0xFF121212),
+              Color(0xFF6B1115), // Deep maroon/red top
+              Color(0xFF121212), // Dark bottom
             ],
           ),
         ),
@@ -47,13 +48,14 @@ class HomeScreen extends StatelessWidget {
           child: SingleChildScrollView(
             padding: const EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 20.0),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // Top Custom Header
                 SizedBox(
                   height: 44,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
- 
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -62,7 +64,8 @@ class HomeScreen extends StatelessWidget {
                             "Hello shivam",
                             style: TextStyle(
                               fontSize: 22,
-                              color: Colors.white.withOpacity(0.80),
+                              // withValues avoids the deprecated withOpacity API.
+                              color: Colors.white.withValues(alpha: 0.80),
                             ),
                           ),
                           const SizedBox(height: 2),
@@ -113,30 +116,15 @@ class HomeScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 20),
 
-
-
-
-
-
-
-
-
-
-
-                // Glassmorphism Container
+                // Glassmorphism Container (Daily Picks)
                 Container(
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
-
-color: const Color(0xFFE3D6CE).withOpacity(0.12), // यह हल्का वार्म-मिल्की ब्लर शेड देगा                    borderRadius: BorderRadius.circular(12),
-                    // border: Border.all(
-                    //   color: Colors.white12.withOpacity(0.1),
-                    //   width: 0.5,
-                    // ),
+                    borderRadius: BorderRadius.circular(16),
+                    color: const Color(0xFFE3D6CE).withValues(alpha: 0.12),
                   ),
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(16),
                     child: BackdropFilter(
                       filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
                       child: Column(
@@ -173,7 +161,7 @@ color: const Color(0xFFE3D6CE).withOpacity(0.12), // यह हल्का व�
                                   child: CircularProgressIndicator(
                                     value: 0.25,
                                     strokeWidth: 2.5,
-                                    backgroundColor: Colors.white.withOpacity(0.80),
+                                    backgroundColor: Colors.white.withValues(alpha: 0.80),
                                     valueColor: const AlwaysStoppedAnimation<Color>(
                                       Color(0xFFE74C3C),
                                     ),
@@ -183,64 +171,122 @@ color: const Color(0xFFE3D6CE).withOpacity(0.12), // यह हल्का व�
                             ],
                           ),
                           const SizedBox(height: 16),
-// Horizontal ListView for Cards
- // Horizontal ListView for Cards (Without individual card background)
-SizedBox(
-  height: 110, // Card ki total height (image + text ke hisaاب se)
-  child: ListView.separated(
-    scrollDirection: Axis.horizontal,
-    itemCount: dailyPicks.length,
-    //  Yahan humne cards ke beech ka exact gap/spacing de di hai
-    separatorBuilder: (context, index) => const SizedBox(width: 15), 
-    itemBuilder: (context, index) {
-      final item = dailyPicks[index];
-      return SizedBox(
-        width: 62, //  Tumne jo 62 width boli thi, wo yahan fix kar di hai!
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            // Cover Image Container
-            Expanded(
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(8),
-                child: Image.asset(
-                  item['coverUrl']!,
-                  fit: BoxFit.cover,
-                  width: double.infinity,
-                ),
-              ),
-            ),
-            const SizedBox(height: 5),
-            // Song Title
-            Text(
-              item['title']!,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                fontSize: 11,
-                fontWeight: FontWeight.w600,
-                color: Color(0xFFEBD9CE),
-              ),
-            ),
-            // Artist Name
-            Text(
-              item['artist']!,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                fontSize: 9,
-                color: Color(0xFFE3D6CE),
-              ),
-            ),
-          ],
-        ),
-      );
-    },
-  ),
-),           ],
+                          // Horizontal ListView for Daily Picks Cards
+                          SizedBox(
+                            height: 110,
+                            child: ListView.separated(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: dailyPicks.length,
+                              separatorBuilder: (context, index) => const SizedBox(width: 15),
+                              itemBuilder: (context, index) {
+                                final item = dailyPicks[index];
+                                return SizedBox(
+                                  width: 62,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      Expanded(
+                                        child: ClipRRect(
+                                          borderRadius: BorderRadius.circular(8),
+                                          child: Image.asset(
+                                            item['coverUrl']!,
+                                            fit: BoxFit.cover,
+                                            width: double.infinity,
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(height: 5),
+                                      Text(
+                                        item['title']!,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: const TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.bold,
+                                          color: Color(0xFFEBD9CE),
+                                        ),
+                                      ),
+                                      Text(
+                                        item['artist']!,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: const TextStyle(
+                                          fontSize: 9,
+                                          fontWeight: FontWeight.bold,
+                                          color: Color(0xFFE3D6CE),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
+                ),
+
+                const SizedBox(height: 24),
+
+                // Level 3: Recent Played Section (Using dailyPicks directly)
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Recent played",
+                      style: TextStyle(
+                        fontSize: 22,
+                        color: Colors.white.withValues(alpha: 0.80),
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    SizedBox(
+                      height: 210,
+                      child: ListView.separated(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: dailyPicks.length,
+                        separatorBuilder: (context, index) => const SizedBox(width: 8),
+                        itemBuilder: (context, index) {
+                          final song = dailyPicks[index];
+
+                          return SizedBox(
+                            width : 80,
+                            child: Column(
+                              children: [
+                                CircleAvatar(
+                                   radius: 60,
+                                  backgroundImage: AssetImage(song['coverUrl']!),
+                                ),
+                                const SizedBox(height: 6),
+                                Text(
+                                  song['title']!,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.white.withValues(alpha: 0.80),
+                                  ),
+                                ),
+                                const SizedBox(height: 2),
+                                Text(
+                                  song['artist']!,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    fontSize: 9,
+                                    color: Colors.white.withValues(alpha: 0.60),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
