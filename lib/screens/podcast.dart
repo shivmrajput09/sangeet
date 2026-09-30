@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class PlaylistScreen extends StatelessWidget {
-  const  PlaylistScreen({super.key});
+class PodcastScreen extends StatelessWidget {
+  const  PodcastScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -9,7 +9,7 @@ class PlaylistScreen extends StatelessWidget {
       backgroundColor: Color(0xFF121212),
       body: Center(
         child: Text(
-          "playlist Page (Design pending)",
+          "podcast Page (Design pending)",
           style: TextStyle(color: Colors.white, fontSize: 20),
         ),
       ),
